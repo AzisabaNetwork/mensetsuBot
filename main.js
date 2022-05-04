@@ -63,6 +63,7 @@ client.on('interactionCreate', async (interaction) => {
       ],
     });
     random = 0;
+    createdChannel.send("面接担当者は面接日と時間の記入を行ってください");
   }
 });
 
