@@ -10,7 +10,13 @@ const view_id4 = process.env.view_id4;
 
 
 client.on("ready", async () => {
-  client.channels.cache.get(startSend).send('面接botが起動しました');
+  client.channels.cache.get(startSend).send({
+    embeds: [{
+      title: '面接Botが起動しました',
+      color: "RANDOM",
+      timestamp: new Date()
+    }]
+  })
 });
 
 client.on('messageCreate', async message => {
