@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { Client, Intents, MessageButton, MessageActionRow } = require('discord.js');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES,Intents.FLAGS.GUILD_INTEGRATIONS] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_INTEGRATIONS, Intents.FLAGS.GUILD_MEMBERS] });
 const token = process.env.token;
 const startSend = process.env.startSend;
 const view_id1 = process.env.view_id1;
@@ -18,6 +18,18 @@ client.on("ready", async () => {
     }]
   })
 });
+
+client.on("guildMemberAdd", async member => {
+  member.guild.channels.cache.get(startSend).send({
+    embeds: [{
+      title : "面接Botログ", 
+      description : `<@${member.user.id}> さんが参加しました`,
+      color: "RANDOM",
+      timestamp: new Date()
+    }]
+  })
+});
+
 
 client.on('messageCreate', async message => {
   if (message.content.startsWith("help")) {
