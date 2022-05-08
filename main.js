@@ -30,6 +30,16 @@ client.on("guildMemberAdd", async member => {
   })
 });
 
+client.on('guildMemberRemove', async member => {
+  member.guild.channels.cache.get(startSend).send({
+    embeds: [{
+      title : "面接Botログ", 
+      description : `<@${member.user.id}> さんが退出しました`,
+      color: "RANDOM",
+      timestamp: new Date()
+    }]
+  })
+});
 
 client.on('messageCreate', async message => {
   if (message.content.startsWith("help")) {
@@ -44,18 +54,17 @@ client.on('messageCreate', async message => {
   }
 });
 
-
 client.on('interactionCreate', async (interaction) => {
   if (interaction.customId === "contact") {
     await interaction.reply({
       content: "ボタンが押されました。",
       ephemeral: true
     });
-    let l = 8;
-    let c = "0123456789";
-    let cl = c.length;
-    let random = "";
-    for(let i=0; i<l; i++){
+    const l = 8;
+    const c = "0123456789";
+    const cl = c.length;
+    const random = "";
+    for(const i=0; i<l; i++){
       random += c[Math.floor(Math.random() * cl)];
     }
     const channels = interaction.guild.channels;
