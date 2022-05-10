@@ -60,11 +60,11 @@ client.on('interactionCreate', async (interaction) => {
       content: "ボタンが押されました。",
       ephemeral: true
     });
-    const l = 8;
-    const c = "0123456789";
-    const cl = c.length;
-    const random = "";
-    for(const i=0; i<l; i++){
+    let l = 8;
+    let c = "0123456789";
+    let cl = c.length;
+    let random = "";
+    for(let i=0; i<l; i++){
       random += c[Math.floor(Math.random() * cl)];
     }
     const channels = interaction.guild.channels;
