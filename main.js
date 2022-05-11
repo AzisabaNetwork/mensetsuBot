@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, Intents, MessageButton, MessageActionRow } = require('discord.js');
+const { Client, Intents, MessageButton, MessageActionRow, MessageAttachment } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_INTEGRATIONS, Intents.FLAGS.GUILD_MEMBERS] });
 const token = process.env.token;
 const startSend = process.env.startSend;
@@ -50,6 +50,21 @@ client.on('messageCreate', async message => {
     await message.channel.send({
       content: "ボタンをクリックでチャンネルを作成する",
       components: [new MessageActionRow().addComponents(button)]
+    });
+  }
+
+  if (message.content.startsWith("$close")) {
+    const messages = await message.channel.messages.fetch({ limit: 100 });
+    const date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let dayofweek = date.getDay();
+    const dayname = ['日','月','火','水','木','金','土'];
+    client.channels.cache.get(startSend).send({
+      files: [
+        new MessageAttachment(Buffer.from(`${messages.map(m => m.content).join('\n')}`, 'utf-8'), year + '-' + month + '-' + day +'.txt'),
+      ],
     });
   }
 });
