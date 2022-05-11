@@ -43,6 +43,8 @@ client.on('guildMemberRemove', async member => {
 
 client.on('messageCreate', async message => {
   if (message.content.startsWith("help")) {
+    const role = message.guild.roles.cache.find(roles => roles.name === 'アジ鯖運営')
+    if (!message.member.roles.cache.has(role.id)) return
     const button = new MessageButton()
       .setCustomId("contact")
       .setStyle("PRIMARY")
@@ -54,6 +56,8 @@ client.on('messageCreate', async message => {
   }
 
   if (message.content.startsWith("$close")) {
+    const role = message.guild.roles.cache.find(roles => roles.name === 'アジ鯖運営')
+    if (!message.member.roles.cache.has(role.id)) return
     const messages = await message.channel.messages.fetch({ limit: 100 });
     const date = new Date();
     let year = date.getFullYear();
