@@ -63,8 +63,6 @@ client.on('messageCreate', async message => {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
-    let dayofweek = date.getDay();
-    const dayname = ['日','月','火','水','木','金','土'];
     client.channels.cache.get(startSend).send({
       files: [
         new MessageAttachment(Buffer.from(`${messages.map(m => m.content).join('\n')}`, 'utf-8'), year + '-' + month + '-' + day +'.txt'),
