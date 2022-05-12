@@ -35,7 +35,7 @@ client.on('guildMemberRemove', async member => {
     embeds: [{
       title : "面接Botログ", 
       description : `<@${member.user.id}> さんが退出しました`,
-      color: "RANDOM",
+      c2olor: "RANDOM",
       timestamp: new Date()
     }]
   })
@@ -50,23 +50,7 @@ client.on('messageCreate', async message => {
       .setStyle("PRIMARY")
       .setLabel("🎫面接用チャンネルを作成する🎫")
     await message.channel.send({
-      content: "ボタンをクリックでチャンネルを作成する",
       components: [new MessageActionRow().addComponents(button)]
-    });
-  }
-
-  if (message.content.startsWith("$close")) {
-    const role = message.guild.roles.cache.find(roles => roles.name === 'アジ鯖運営')
-    if (!message.member.roles.cache.has(role.id)) return
-    const messages = await message.channel.messages.fetch({ limit: 100 });
-    const date = new Date();
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    client.channels.cache.get(startSend).send({
-      files: [
-        new MessageAttachment(Buffer.from(`${messages.map(m => m.content).join('\n')}`, 'utf-8'), year + '-' + month + '-' + day +'.txt'),
-      ],
     });
   }
 });
@@ -107,7 +91,44 @@ client.on('interactionCreate', async (interaction) => {
       ],
     });
     random = 0;
-    createdChannel.send("面接担当者は面接日と時間の記入を行ってください");
+    const button = new MessageButton()
+      .setCustomId("admin")
+      .setStyle("PRIMARY")
+      .setLabel("🎫")
+    await createdChannel.send({
+      embeds: [{
+        title : "面接Bot", 
+        description : "運営のみ : ログファイルを作成するには🎫をクリック\n\n面接担当者は面接日と時間の記入を行ってください",
+        color: "RANDOM",
+        timestamp: new Date()
+      }],
+      components: [new MessageActionRow().addComponents(button)]
+    });
+  }
+
+  if (interaction.customId === "admin") {
+    await interaction.reply({
+      content: "ボタンが押されました。",
+      ephemeral: true
+    });
+    const role = interaction.guild.roles.cache.find(roles => roles.name === 'アジ鯖運営')
+    if (!interaction.member.roles.cache.has(role.id)) return
+    const messages = await interaction.channel.messages.fetch({ limit: 100 });
+    const date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    client.channels.cache.get(startSend).send({
+      embeds: [{
+        title : "面接Botログ", 
+        description : interaction.channel.name + " ログファイルが作成されました",
+        color: "RANDOM",
+        timestamp: new Date()
+      }],
+      files: [
+        new MessageAttachment(Buffer.from(`${messages.map(m => m.content).join('\n')}`, 'utf-8'), year + '-' + month + '-' + day +'.txt'),
+      ],
+    });
   }
 });
 
