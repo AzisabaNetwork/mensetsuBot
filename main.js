@@ -35,7 +35,7 @@ client.on('guildMemberRemove', async member => {
     embeds: [{
       title : "面接Botログ", 
       description : `<@${member.user.id}> さんが退出しました`,
-      c2olor: "RANDOM",
+      color: "RANDOM",
       timestamp: new Date()
     }]
   })
