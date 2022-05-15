@@ -42,7 +42,7 @@ client.on('guildMemberRemove', async member => {
 });
 
 client.on('messageCreate', async message => {
-  if (message.content.startsWith("help")) {
+  if (message.content === "$help") {
     const role = message.guild.roles.cache.find(roles => roles.name === 'アジ鯖運営')
     if (!message.member.roles.cache.has(role.id)) return
     const button = new MessageButton()
@@ -61,6 +61,8 @@ client.on('interactionCreate', async (interaction) => {
       content: "ボタンが押されました。",
       ephemeral: true
     });
+    const role = interaction.guild.roles.cache.find(roles => roles.name === 'アジ鯖運営')
+    if (!interaction.member.roles.cache.has(role.id)) return
     let l = 8;
     let c = "0123456789";
     let cl = c.length;
@@ -126,7 +128,7 @@ client.on('interactionCreate', async (interaction) => {
         timestamp: new Date()
       }],
       files: [
-        new MessageAttachment(Buffer.from(`${messages.map(m => m.content).join('\n')}`, 'utf-8'), year + '-' + month + '-' + day +'.txt'),
+        new MessageAttachment(Buffer.from(messages.map(m => `${m.author.tag}: ${m.content}`).join('\n'), 'utf-8'), year + '-' + month + '-' + day +'.txt'),
       ],
     });
   }
