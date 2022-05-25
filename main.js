@@ -75,6 +75,10 @@ client.on('interactionCreate', async (interaction) => {
       parent: interaction.channel.parent,
       permissionOverwrites: [
         {
+          id: interaction.member.id,
+          allow: ['VIEW_CHANNEL'],
+        },
+        {
           id: view_id1,
           deny: ['VIEW_CHANNEL'],
         },
@@ -93,10 +97,15 @@ client.on('interactionCreate', async (interaction) => {
       ],
     });
     random = 0;
-    const button = new MessageButton()
-      .setCustomId("admin")
-      .setStyle("PRIMARY")
-      .setLabel("🎫")
+    const button = new MessageButton().setCustomId("admin").setStyle("PRIMARY").setLabel("🎫")
+    client.channels.cache.get(startSend).send({
+      embeds: [{
+        title : "面接Bot", 
+        description : `${interaction.user.tag}さんが<#${createdChannel.id}>を作成しました`,
+        color: "RANDOM",
+        timestamp: new Date()
+      }],
+    });
     await createdChannel.send({
       embeds: [{
         title : "面接Bot", 
