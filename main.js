@@ -109,7 +109,7 @@ client.on('interactionCreate', async (interaction) => {
     await createdChannel.send({
       embeds: [{
         title : "面接Bot", 
-        description : "運営のみ : ログファイルを作成するには🎫をクリック\n\n面接担当者は面接日と時間の記入を行ってください",
+        description : "運営のみ : ログファイルを作成するには🎫をクリック\n\n面接担当者は面接日と時間の記入を行ってください\n\n例: 2022/01/01 00:00:00 面接開始",
         color: "RANDOM",
         timestamp: new Date()
       }],
@@ -137,7 +137,7 @@ client.on('interactionCreate', async (interaction) => {
         timestamp: new Date()
       }],
       files: [
-        new MessageAttachment(Buffer.from(messages.map(m => `${m.author.tag}: ${m.content}`).join('\n'), 'utf-8'), year + '-' + month + '-' + day +'.txt'),
+        new MessageAttachment(Buffer.from(messages.map(m => `[↑] ${m.author.tag}: ${m.content}`).join('\n'), 'utf-8'), year + '-' + month + '-' + day +'.txt'),
       ],
     });
   }
